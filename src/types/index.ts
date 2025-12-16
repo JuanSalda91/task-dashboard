@@ -11,7 +11,7 @@ export interface Task {
     priority: TaskPriority;
     createdAt: string;
     updatedAt: string;
-    dueDate?: Date;
+    dueDate?: string;
 }
 
 export interface TaskFormData {
