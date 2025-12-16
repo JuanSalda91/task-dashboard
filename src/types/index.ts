@@ -30,7 +30,7 @@ export interface TaskFilterOptions {
 
 export interface TaskListProps {
     tasks: Task [];
-    onTogglleStatus: (id: string) => void;
+    onToggleStatus: (id: string) => void;
     onDelete: (id: string) => void;
     onReorder: (sourceIndex: number, destinationIndex: number) => void;
 }
