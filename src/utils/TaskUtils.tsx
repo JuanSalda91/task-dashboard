@@ -68,6 +68,38 @@ export function saveTasksToStorage(tasks: Task[]): void {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 }
 
+export function loadTasksFromStorage(): Task[] {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    try {
+        const parsed = JSON.parse(raw) as Task[];
+        return parsed;
+    } catch {
+        return [];
+    }
+}
+
+export function exportTasks(tasks: Task[]): string {
+    return JSON.stringify(tasks, null, 2);
+  }
+  
+  export function importTasks(json: string): Task[] {
+    const parsed = JSON.parse(json) as Task[];
+    return parsed;
+  }
+  
+  export function saveThemeToStorage(theme: "light" | "dark"): void {
+    localStorage.setItem(THEME_KEY, theme);
+  }
+  
+  export function loadThemeFromStorage(): "light" | "dark" | null {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === "light" || stored === "dark") {
+      return stored;
+    }
+    return null;
+  }
+
 
 /**
  * - Crypto: The Crypto interface represents basic cryptography features available in the current context. It allows access to a cryptographically strong random number generator and to cryptographic primitives.
