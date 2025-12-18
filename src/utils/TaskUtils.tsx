@@ -1,5 +1,5 @@
 // ----- The functions here encapsulate transformations (filtering, sorting, localStorage), so the components can focus on UI and interactions ----- //
-import { Task, TaskFilterOptions, TaskFormData, TaskStatus, TaskPriority } from "../types"
+import type { Task, TaskFilterOptions, TaskFormData, TaskStatus, TaskPriority } from "../types"
 
 const STORAGE_KEY = "task-dashboard-tasks";
 const THEME_KEY = "task-dashboard-theme";
@@ -41,6 +41,26 @@ export function filterTasks(tasks: Task[], filters: TaskFilterOptions): Task[] {
         task.description.toLowerCase().includes(search);
         return matchesStatus && matchesPriority && matchesSearch;
     });
+}
+
+export function sortTasks(tasks: Task[], sortBy: "createdAt" | "priority" | "status"): Task[] {
+    const priorityOrder: TaskPriority[] = ["low", "medium", "high"];
+    const statusOrder: TaskStatus[] = ["todo", "in-progress", "done"];
+
+    const copy = [...tasks];
+    copy.sort((a, b) => {
+        if (sortBy === "createdAt") {
+            return new Date(b.createdAt). getTime() - new Date(a.createdAt).getTime();
+        }
+        if (sortBy === "priority") {
+            return priorityOrder.indexOf(b.priority) - priorityOrder.indexOf(a.priority);
+        }
+        if (sortBy === "status") {
+            return statusOrder.indexOf(a.status) - statusOrder.indexOf(b.status);
+        }
+        return 0;
+    });
+    return copy;
 }
 
 
