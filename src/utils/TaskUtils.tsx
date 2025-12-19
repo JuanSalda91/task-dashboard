@@ -4,7 +4,7 @@ import type { Task, TaskFilterOptions, TaskFormData, TaskStatus, TaskPriority } 
 const STORAGE_KEY = "task-dashboard-tasks";
 const THEME_KEY = "task-dashboard-theme";
 
-export function createTaskFormData(data: TaskFormData): Task {
+export function createTaskFromForm(data: TaskFormData): Task {
     const now = new Date().toISOString(); // Method that converts a date's value to a string format following the ISO 8601 standard.
     return {
         id: crypto.randomUUID(),// UUID Helps to generate ID
