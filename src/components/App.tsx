@@ -1,12 +1,9 @@
-import './App.css'
+// src/App.tsx
+import React from "react";
+import Dashboard from "../components/Dashboard/Dashboard.tsx";
 
-function App() {
+const App: React.FC = () => {
+  return <Dashboard />;
+};
 
-  return (
-    <>
-
-    </>
-  )
-}
-
-export default App
+export default App;
