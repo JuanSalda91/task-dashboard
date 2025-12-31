@@ -46,6 +46,11 @@ export interface TaskFormProps {
     onChange: (filters: TaskFilterOptions) => void;
 }
 
+export interface TaskFilterProps {
+    filters: TaskFilterOptions;
+    onChange: (filters: TaskFilterOptions) => void;
+  }
+
 export type Theme = "light" | "dark";
 
 export interface DashboardProps {
