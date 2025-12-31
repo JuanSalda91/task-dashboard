@@ -42,8 +42,8 @@ export interface TaskItemProps {
 }
 
 export interface TaskFormProps {
-    filters: TaskFilterOptions;
-    onChange: (filters: TaskFilterOptions) => void;
+    initialData?: TaskFormData;
+    onSubmit: (data: TaskFormData) => void;
 }
 
 export interface TaskFilterProps {
