@@ -36,10 +36,10 @@ export interface TaskListProps {
 }
 
 export interface TaskItemProps {
-    tas: Task;
-    onToggelStatus: (id: string) => void;
+    task: Task;
+    onToggleStatus: (id: string) => void;
     onDelete: (id: string) => void;
-}
+  }
 
 export interface TaskFormProps {
     initialData?: TaskFormData;
