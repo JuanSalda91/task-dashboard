@@ -18,15 +18,22 @@ import {
     importTasks,
     loadThemeFromStorage,
     saveThemeToStorage,
-} from "../../utils/TaskUtils";
+} from "../../utils/TaskUtils.tsx";
 
-import TaskForm from "../TaskForm/TaskForm";
-import TaskFilter from "../TaskFilter/TaskFilter";
-import TaskList from "../TaskList/TaskList";
+import TaskForm from "../TaskForm/TaskForm.tsx";
+import TaskFilter from "../TaskFilter/TaskFilter.tsx";
+import TaskList from "../TaskList/TaskList.tsx";
 
 const Dashboard: React.FC<DashboardProps> = ({ initialTasks = [] }) => {
     // task state //
-    const [tasks, setTasks] = useState<Task[]> (initialTasks);
+    const [tasks, setTasks] = useState<Task[]>(() => {
+  const storedTasks = loadTasksFromStorage();
+  if (storedTasks.length > 0) {
+    return storedTasks;
+  }
+  return initialTasks;
+});
+
 
     // filter state //
     const [filters, setFilters] = useState<TaskFilterOptions>({
@@ -41,31 +48,15 @@ const Dashboard: React.FC<DashboardProps> = ({ initialTasks = [] }) => {
     );
 
     // theme state //
-    const [theme, setTheme] = useState<Theme>("light");
+    const [theme, setTheme] = useState<Theme>(() => {
+        const storedTheme = loadThemeFromStorage();
+        if (storedTheme) return storedTheme;
+        return "light";
+      });
+      
 
     // Import/export text
   const [importText, setImportText] = useState("");
-
-  // Load tasks + theme from localStorage on first render
-  useEffect(() => {
-    const storedTasks = loadTasksFromStorage();
-    if (storedTasks.length > 0) {
-      setTasks(storedTasks);
-    }
-
-    const storedTheme = loadThemeFromStorage();
-    if (storedTheme) {
-      setTheme(storedTheme);
-      applyThemeClass(storedTheme);
-    } else {
-      applyThemeClass("light");
-    }
-  }, []);
-
-  // Persist tasks whenever they change
-  useEffect(() => {
-    saveTasksToStorage(tasks);
-  }, [tasks]);
 
   // Apply theme to <html> or <body>
   const applyThemeClass = (t: Theme) => {
@@ -76,6 +67,18 @@ const Dashboard: React.FC<DashboardProps> = ({ initialTasks = [] }) => {
       root.classList.remove("dark");
     }
   };
+
+  // Load theme from localStorage on first render
+  useEffect(() => {
+    applyThemeClass(theme);
+  }, [theme]);
+  
+  
+
+  // Persist tasks whenever they change
+  useEffect(() => {
+    saveTasksToStorage(tasks);
+  }, [tasks]);
 
   // Handle theme toggle
   const handleToggleTheme = () => {
@@ -153,7 +156,7 @@ const Dashboard: React.FC<DashboardProps> = ({ initialTasks = [] }) => {
       setTasks(imported);
       setImportText("");
       alert("Tasks imported.");
-    } catch (e) {
+    } catch {
       alert("Invalid JSON.");
     }
   };
