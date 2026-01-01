@@ -54,7 +54,7 @@ export interface TaskFilterProps {
 export type Theme = "light" | "dark";
 
 export interface DashboardProps {
-    initialTask?: Task [];
+    initialTasks?: Task [];
 }
 
 /** 
